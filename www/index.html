@@ -217,7 +217,7 @@ under the License.
                      
                 if (cb != null) {
                     cb.onLocationChange = function(loc){ root.locChanged(loc); };
-                    cb.onClose = function(){window.close()};
+                    cb.onClose = function(){cb.close()};
                     cb.onOpenExternal = function(){root.onOpenExternal();};
                 }
             }
@@ -243,7 +243,7 @@ under the License.
             var options = {
                 consumerKey: 'cvhEBcQiOwna9Zc32MKZA', // YOUR Twitter CONSUMER_KEY
                 consumerSecret: 'XRpc11UVOQiOOgfdxXsJ8vWmAMMWRwJkuEy4fh4PUvc', // YOUR Twitter CONSUMER_SECRET
-                callbackUrl: "http://127.0.0.1:8020/phonegap-start/www/index.html" }; // YOU have to replace it on one more Place                   
+                callbackUrl: "http://blrbr.co/" }; // YOU have to replace it on one more Place                   
             var twitterKey = "twtrKey"; // This key is used for storing Information related
                      
                      
@@ -298,7 +298,7 @@ under the License.
                             /*
                              Here Plugin will check whether the callback Url matches with the given Url
                              */
-                            if (loc.indexOf("http://127.0.0.1:8020/phonegap-start/www/index.html") >= 0) {
+                            if (loc.indexOf("http:blrbr.co/") >= 0) {
                                  debugger;
                                 // Parse the returned URL
                                 var index, verifier = '';
