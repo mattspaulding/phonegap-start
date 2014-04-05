@@ -203,9 +203,8 @@ under the License.
             }
              
             function onDeviceReady() {
-            	debugger;
                 var root = this;
-                cb = window;
+              //  cb = window;
                 if(!localStorage.getItem(twitterKey)){
                         $("#loginBtn").show();
                         $("#logoutBtn").hide();
@@ -215,18 +214,20 @@ under the License.
                     $("#logoutBtn").show();
                 }
                      
-                if (cb != null) {
-                    cb.onLocationChange = function(loc){ root.locChanged(loc); };
-                    cb.onClose = function(){cb.close()};
-                    cb.onOpenExternal = function(){root.onOpenExternal();};
-                }
+                //if (cb != null) {
+                //	cb.addEventListener('loadstop',locChanged());
+                   // cb.onLocationChange = function(loc){ root.locChanged(loc); };
+                //    cb.onClose = function(){cb.close()};
+                 //   cb.onOpenExternal = function(){root.onOpenExternal();};
+                //}
             }
              
             function onCloseBrowser() {
                 console.log("onCloseBrowser!");
             }
                  
-            function locChanged(loc) {
+            function locChanged() {
+            	debugger;
                 console.log("locChanged!");
             }
                  
@@ -245,8 +246,7 @@ under the License.
                 consumerSecret: 'XRpc11UVOQiOOgfdxXsJ8vWmAMMWRwJkuEy4fh4PUvc', // YOUR Twitter CONSUMER_SECRET
                 callbackUrl: "http://blrbr.co/" }; // YOU have to replace it on one more Place                   
             var twitterKey = "twtrKey"; // This key is used for storing Information related
-                     
-                     
+                     var cb;
             var Twitter = {
                 init:function(){
                 	debugger;
@@ -277,13 +277,29 @@ under the License.
                         function(data) {
                         	debugger;
                         requestParams = data.text;
-                        window.open('https://api.twitter.com/oauth/authorize?'+data.text); // This opens the Twitter authorization / sign in page
-                        cb.onLocationChange = function(loc){ Twitter.success(loc); }; // Here will will track the change in URL of ChildBrowser
-                                  },
+                        function LoadStart(event) {
+                     	debugger;
+        alert(event.type + ' - ' + event.url);
+    }
+ function LoadStop(event)
+                    {
+                    	debugger;
+                    	 alert(event.type + ' - ' + event.url);
+                    }
+                     
+                        
+                        
+                        cb=window.open('https://api.twitter.com/oauth/authorize?'+data.text); // This opens the Twitter authorization / sign in page
+                        cb.addEventListener('loadstop',  Twitter.success); // Here will will track the change in URL of ChildBrowser
+                        cb.addEventListener('loadstop',  LoadStop); // Here will will track the change in URL of ChildBrowser
+                        cb.addEventListener('loadstart',  LoadStart); // Here will will track the change in URL of ChildBrowser
+                                   },
                                   function(data) {
                                   	debugger;
                                           console.log("ERROR: "+data);
                                 }
+                                
+                                
                     );
                     }
                     },
@@ -298,7 +314,7 @@ under the License.
                             /*
                              Here Plugin will check whether the callback Url matches with the given Url
                              */
-                            if (loc.indexOf("http:blrbr.co/") >= 0) {
+                            if (loc.indexOf("http://blrbr.co/") >= 0) {
                                  debugger;
                                 // Parse the returned URL
                                 var index, verifier = '';
@@ -357,7 +373,7 @@ under the License.
                                                     );
                                            debugger;
                                           // Now we have to close the child browser because everthing goes on track.
-                                          window.close();
+                                          cb.close();
                                           //window.plugins.childBrowser.close();
                                           },
                                           function(data) {
@@ -410,7 +426,8 @@ under the License.
                                        );      
                         }
  
-                    }
+                   };
+                    
                      
                 function done(){
                         $("#tweet").val('');
